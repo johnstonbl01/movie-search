@@ -1,36 +1,21 @@
-import Image from 'next/image';
-import { Card, Heading, Flex } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 
 import { Movie } from '@/server-actions/fetch-movies';
+
+import styles from './MovieList.module.scss';
+import { MovieCard } from './MovieCard';
 
 type MovieListProps = {
   movies: Movie[];
 };
 
-// TODO: Handle missing image src
 export const MovieList = ({ movies }: MovieListProps) => {
   return (
-    <Flex asChild wrap="wrap">
+    <Flex asChild wrap="wrap" className={styles.list} gap="2">
       <ul>
-        {movies.map((movie) => {
-          return (
-            <Card asChild key={movie.id}>
-              <li>
-                <div
-                  style={{ position: 'relative', width: 100, height: 150, objectFit: 'contain' }}
-                >
-                  <Image
-                    src={movie.posterUrl}
-                    alt={`Movie poster for ${movie.title}`}
-                    fill
-                    sizes="(max-width: 1800px) 5vw"
-                  />
-                </div>
-                <Heading>{movie.title}</Heading>
-              </li>
-            </Card>
-          );
-        })}
+        {movies.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
       </ul>
     </Flex>
   );

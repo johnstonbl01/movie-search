@@ -8,7 +8,7 @@ export const MOVIE_GENRES = [
   'Biography',
   'Comedy',
   'Crime',
-  'Dcoumentary',
+  'Documentary',
   'Drama',
   'Family',
   'Fantasy',

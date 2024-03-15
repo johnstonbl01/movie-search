@@ -2,14 +2,16 @@
 import type { ChangeEventHandler, MouseEventHandler } from 'react';
 import type { Movie, MovieGenre } from '@/server-actions/fetch-movies';
 
-import { useState, Suspense } from 'react';
+import { useState } from 'react';
 import { Button, Text } from '@radix-ui/themes';
+import { Label } from '@radix-ui/react-label';
 
 import { useDebounce } from '@/hooks/useDebounce';
 import { fetchMovies } from '@/server-actions/fetch-movies';
 
 import { SearchInput } from './SearchInput';
 import { MovieList } from './MovieList';
+import { MoviePagination } from './MoviePagination';
 
 export const Movies = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -39,11 +41,14 @@ export const Movies = () => {
     searchMovies();
   };
 
-  const onPageChange = (pageNumber: number): MouseEventHandler<HTMLButtonElement> => {
-    return () => {
-      setSearchPage(pageNumber);
-      searchMovies();
-    };
+  const onNextPageClick = () => {
+    setSearchPage((currentPage) => currentPage + 1);
+    searchMovies();
+  };
+
+  const onPrevPageClick = () => {
+    setSearchPage((currentPage) => currentPage - 1);
+    searchMovies();
   };
 
   const onGenreChange = (genre: MovieGenre) => {
@@ -54,6 +59,10 @@ export const Movies = () => {
     }
   };
 
+  const onResetSearch = () => {
+    setSearchValue('');
+  };
+
   return (
     <>
       <SearchInput
@@ -61,18 +70,16 @@ export const Movies = () => {
         onSearchChange={onSearchChange}
         movieGenre={movieGenre}
         onGenreChange={onGenreChange}
+        onResetClick={onResetSearch}
       />
       <MovieList movies={movies} />
-      {movies?.length > 0 && (
-        <>
-          <Text>Page:</Text>
-          {Array.from({ length: totalPages }, (_element, idx) => idx + 1).map((pageNumber) => (
-            <Button key={`paginator-${pageNumber}`} onClick={onPageChange(pageNumber)}>
-              {pageNumber}
-            </Button>
-          ))}
-        </>
-      )}
+      <MoviePagination
+        currentPage={searchPage}
+        totalPages={totalPages}
+        hasMovies={movies?.length > 0}
+        onNextPage={onNextPageClick}
+        onPrevPage={onPrevPageClick}
+      />
     </>
   );
 };

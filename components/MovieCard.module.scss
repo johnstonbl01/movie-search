@@ -1,0 +1,35 @@
+.imageContainer {
+  position: relative;
+  width: 100px;
+  height: 150px;
+  margin: 0 auto 16px;
+  object-fit: contain;
+}
+
+.movieTitle {
+  font-weight: 400;
+  font-size: 20px;
+  text-align: center;
+}
+
+.movieCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  max-width: 200px;
+  padding: 24px;
+}
+
+.posterPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 150px;
+  margin: 0 auto 16px;
+  background-color: white;
+  opacity: 0.65;
+}

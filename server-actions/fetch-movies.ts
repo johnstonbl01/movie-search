@@ -17,7 +17,7 @@ type MoviesAPIResponse = {
 };
 
 export const fetchMovies = async (search: string, page: number, genre: MovieGenre) => {
-  const baseUrl = `${MOVIE_API_URL}/movies?search=${search}&page=${page}`;
+  const baseUrl = `${MOVIE_API_URL}/movies?search=${search}&page=${page}&limit=21`;
   const searchUrl = genre !== 'All' ? `${baseUrl}&genre=${genre}` : baseUrl;
 
   console.log('searchURL', searchUrl);
