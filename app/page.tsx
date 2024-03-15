@@ -1,7 +1,16 @@
-import { fetchMovies } from './fetch-movies.action';
+import { Flex, Heading } from '@radix-ui/themes';
+
+import { Movies } from '@/components/Movies';
+
+import styles from './home.module.scss';
 
 export default async function Home() {
-  const movies = await fetchMovies();
-
-  return <main>Movie Search</main>;
+  return (
+    <Flex asChild direction="column" justify="center" align="center" className={styles.container}>
+      <main>
+        <Heading>Movie Search</Heading>
+        <Movies />
+      </main>
+    </Flex>
+  );
 }
