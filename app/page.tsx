@@ -6,7 +6,7 @@ import styles from './home.module.scss';
 
 export default async function Home() {
   return (
-    <Flex asChild direction="column" justify="center" align="center" className={styles.container}>
+    <Flex asChild direction="column" align="center" className={styles.container}>
       <main>
         <Heading>Movie Search</Heading>
         <Movies />
