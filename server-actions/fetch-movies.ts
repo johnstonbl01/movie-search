@@ -2,7 +2,7 @@
 
 import { MOVIE_API_URL } from '@/utils/constants';
 
-type Movie = {
+export type Movie = {
   id: string;
   title: string;
   posterUrl: string;
@@ -14,8 +14,8 @@ type MoviesAPIResponse = {
   totalPages: number;
 };
 
-export const fetchMovies = async () => {
-  const response = await fetch(`${MOVIE_API_URL}/movies`, {
+export const fetchMovies = async (search: string, page: number) => {
+  const response = await fetch(`${MOVIE_API_URL}/movies?search=${search}&page=${page}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${process.env.MOVIE_API_TOKEN}`
@@ -23,6 +23,7 @@ export const fetchMovies = async () => {
   });
 
   const parsedResponse = (await response.json()) as MoviesAPIResponse;
+  console.log(parsedResponse);
 
   return parsedResponse;
 };
