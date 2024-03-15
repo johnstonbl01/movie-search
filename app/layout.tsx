@@ -2,10 +2,10 @@ import '@radix-ui/themes/styles.css';
 
 import type { Metadata } from 'next';
 
-import { Inter } from 'next/font/google';
+import { Lato } from 'next/font/google';
 import { Theme } from '@radix-ui/themes';
 
-const inter = Inter({ subsets: ['latin'] });
+const lato = Lato({ subsets: ['latin'], weight: ['300', '400', '700'] });
 
 export const metadata: Metadata = {
   title: 'Movie Search',
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={lato.className}>
         <Theme appearance="dark">{children}</Theme>
       </body>
     </html>

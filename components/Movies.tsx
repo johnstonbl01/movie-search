@@ -1,8 +1,8 @@
 'use client';
 import type { ChangeEventHandler, MouseEventHandler } from 'react';
-import type { Movie } from '@/server-actions/fetch-movies';
+import type { Movie, MovieGenre } from '@/server-actions/fetch-movies';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { Button, Text } from '@radix-ui/themes';
 
 import { useDebounce } from '@/hooks/useDebounce';
@@ -13,17 +13,18 @@ import { MovieList } from './MovieList';
 
 export const Movies = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [movieGenre, setMovieGenre] = useState<MovieGenre>('All');
   const [searchValue, setSearchValue] = useState('');
   const [searchPage, setSearchPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const searchMovies = useDebounce(async () => {
-    console.log({ searchValue, searchPage });
     if (searchValue === '') {
       return null;
     }
 
-    const searchResults = await fetchMovies(searchValue, searchPage);
+    const searchResults = await fetchMovies(searchValue, searchPage, movieGenre);
     setMovies(searchResults.data);
 
     if (searchResults.totalPages > 1) {
@@ -45,11 +46,24 @@ export const Movies = () => {
     };
   };
 
+  const onGenreChange = (genre: MovieGenre) => {
+    setMovieGenre(genre);
+
+    if (searchValue !== '') {
+      searchMovies();
+    }
+  };
+
   return (
     <>
-      <SearchInput searchValue={searchValue} onChange={onSearchChange} />
+      <SearchInput
+        searchValue={searchValue}
+        onSearchChange={onSearchChange}
+        movieGenre={movieGenre}
+        onGenreChange={onGenreChange}
+      />
       <MovieList movies={movies} />
-      {movies.length > 0 && (
+      {movies?.length > 0 && (
         <>
           <Text>Page:</Text>
           {Array.from({ length: totalPages }, (_element, idx) => idx + 1).map((pageNumber) => (

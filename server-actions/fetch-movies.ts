@@ -1,6 +1,6 @@
 'use server';
 
-import { MOVIE_API_URL } from '@/utils/constants';
+import { MOVIE_API_URL, MOVIE_GENRES } from '@/utils/constants';
 
 export type Movie = {
   id: string;
@@ -9,13 +9,20 @@ export type Movie = {
   rating: string;
 };
 
+export type MovieGenre = (typeof MOVIE_GENRES)[number];
+
 type MoviesAPIResponse = {
   data: Movie[];
   totalPages: number;
 };
 
-export const fetchMovies = async (search: string, page: number) => {
-  const response = await fetch(`${MOVIE_API_URL}/movies?search=${search}&page=${page}`, {
+export const fetchMovies = async (search: string, page: number, genre: MovieGenre) => {
+  const baseUrl = `${MOVIE_API_URL}/movies?search=${search}&page=${page}`;
+  const searchUrl = genre !== 'All' ? `${baseUrl}&genre=${genre}` : baseUrl;
+
+  console.log('searchURL', searchUrl);
+
+  const response = await fetch(searchUrl, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${process.env.MOVIE_API_TOKEN}`

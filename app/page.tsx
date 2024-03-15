@@ -8,7 +8,9 @@ export default async function Home() {
   return (
     <Flex asChild direction="column" align="center" className={styles.container}>
       <main>
-        <Heading>Movie Search</Heading>
+        <Heading as="h1" className={styles.pageTitle}>
+          Movie Search
+        </Heading>
         <Movies />
       </main>
     </Flex>
