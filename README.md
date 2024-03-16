@@ -25,5 +25,6 @@ Some bugs I noticed w/the API:
 
 - The search seems to not just happen on the title, or isn't working correctly. If I just type `g` in to the search, `3:10 to Yuma` shows up in the results. That doesn't seem correct.
 - The graphql API at `/graphql` doesn't seem to be introspecting types. I was originally going to use this to create the types for movies, but couldn't get the schema to show up at all
-- The paginated result for the REST api doesn't include the total count of results, but just the total number of pages
+- The paginated result for the REST API doesn't include the total count of results, but just the total number of pages
+- The REST API didn't have a way to _just_ get the list of genres. I ended up playing with the API and pulling everything to get a list of genres that I could include in the app, but that's not a great scenario. If a new genre is added, the application would miss it initially without being updated.
 - I really wished that the `/movies` result had a little more information, and I now in GraphQL I probably could have pulled more at once and maybe even made a single call for `/movies`. This isn't necessarily a bug, just seemed like the experience was probably much richer on the GraphQL side
