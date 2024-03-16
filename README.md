@@ -20,3 +20,10 @@ So many things.
 - I didn't particularly like that I couldn't use the card itself as the `DialogTrigger` for the Radix Dialog (mostly because it's not a button, and I didn't create an abstraction using `forwardRef` for the `Card`), but I'd try to improve this, as I think it makes the code more readable.
 - I'd reorganize the code inside the `MovieDetailDialog` to be more readable -- primarily would abstract some of the organizing components into smaller ones (like for the rating, and runtime) to make the code inside the component more declarative
 - Improve the responsive design to make it look better on smaller devices
+
+Some bugs I noticed w/the API:
+
+- The search seems to not just happen on the title, or isn't working correctly. If I just type `g` in to the search, `3:10 to Yuma` shows up in the results. That doesn't seem correct.
+- The graphql API at `/graphql` doesn't seem to be introspecting types. I was originally going to use this to create the types for movies, but couldn't get the schema to show up at all
+- The paginated result for the REST api doesn't include the total count of results, but just the total number of pages
+- I really wished that the `/movies` result had a little more information, and I now in GraphQL I probably could have pulled more at once and maybe even made a single call for `/movies`. This isn't necessarily a bug, just seemed like the experience was probably much richer on the GraphQL side
