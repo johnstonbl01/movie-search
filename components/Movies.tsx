@@ -1,10 +1,8 @@
 'use client';
-import type { ChangeEventHandler, MouseEventHandler } from 'react';
+import type { ChangeEventHandler } from 'react';
 import type { Movie, MovieGenre } from '@/server-actions/fetch-movies';
 
 import { useState } from 'react';
-import { Button, Text } from '@radix-ui/themes';
-import { Label } from '@radix-ui/react-label';
 
 import { useDebounce } from '@/hooks/useDebounce';
 import { fetchMovies } from '@/server-actions/fetch-movies';
@@ -16,23 +14,24 @@ import { MoviePagination } from './MoviePagination';
 export const Movies = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [movieGenre, setMovieGenre] = useState<MovieGenre>('All');
-  const [searchValue, setSearchValue] = useState('');
-  const [searchPage, setSearchPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [searchPage, setSearchPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const searchMovies = useDebounce(async () => {
     if (searchValue === '') {
       return null;
     }
 
+    setLoading(true);
+
     const searchResults = await fetchMovies(searchValue, searchPage, movieGenre);
     setMovies(searchResults.data);
+    setSearchPage(1);
+    setTotalPages(searchResults.totalPages);
 
-    if (searchResults.totalPages > 1) {
-      setTotalPages(searchResults.totalPages);
-    }
-
+    setLoading(false);
     return searchResults;
   });
 
@@ -61,6 +60,7 @@ export const Movies = () => {
 
   const onResetSearch = () => {
     setSearchValue('');
+    setSearchPage(1);
   };
 
   return (
@@ -72,7 +72,7 @@ export const Movies = () => {
         onGenreChange={onGenreChange}
         onResetClick={onResetSearch}
       />
-      <MovieList movies={movies} />
+      <MovieList movies={movies} loading={loading} />
       <MoviePagination
         currentPage={searchPage}
         totalPages={totalPages}

@@ -1,0 +1,32 @@
+.container {
+  min-width: 400px;
+  max-width: 400px;
+}
+
+.summary {
+  flex-shrink: 1;
+}
+
+.actorList {
+  margin: 8px 0;
+  padding-left: 16px;
+
+  >span {
+    margin: 0 4px;
+  }
+
+  >span:first-of-type {
+    margin: 0 4px 0 0;
+  }
+
+  >span:last-of-type {
+    margin: 0 0 0 4px;
+  }
+}
+
+.summaryLineSkeleton {
+  min-width: 236px;
+  max-width: 236px;
+  height: 13px;
+  margin: 2px 0;
+}

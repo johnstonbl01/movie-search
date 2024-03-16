@@ -1,9 +1,12 @@
 import type { Movie } from '@/server-actions/fetch-movies';
 
+import clsx from 'clsx';
 import Image from 'next/image';
-import { Card, Heading, Flex } from '@radix-ui/themes';
+import { useState } from 'react';
+import { Card, Heading } from '@radix-ui/themes';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 
+import { MovieDetailDialog } from './MovieDetailDialog';
 import styles from './MovieCard.module.scss';
 
 type MovieCardProps = {
@@ -15,10 +18,21 @@ type MoviePoster = {
   title: string;
 };
 
-const MoviePoster = ({ posterUrl, title }: MoviePoster) => {
+export const MovieCardSkeleton = () => {
+  return (
+    <Card asChild className={styles.movieCard}>
+      <li>
+        <div className={clsx(styles.skeleton, styles.posterSkeleton)} />
+        <div className={clsx(styles.skeleton, styles.titleSkeleton)} />
+      </li>
+    </Card>
+  );
+};
+
+export const MoviePoster = ({ posterUrl, title }: MoviePoster) => {
   if (!posterUrl) {
     return (
-      <div className={styles.posterPlaceholder}>
+      <div className={styles.posterUnknown}>
         <CrossCircledIcon width="24" height="24" color="gray" />
       </div>
     );
@@ -37,14 +51,24 @@ const MoviePoster = ({ posterUrl, title }: MoviePoster) => {
 };
 
 export const MovieCard = ({ movie }: MovieCardProps) => {
+  const [showMovieDetails, setShowMovieDetails] = useState<boolean>(false);
+
+  const onCardClick = () => setShowMovieDetails((currentValue) => !currentValue);
+  const onCloseClick = () => setShowMovieDetails(false);
+
   return (
-    <Card asChild key={movie.id} className={styles.movieCard}>
-      <li>
-        <MoviePoster posterUrl={movie.posterUrl} title={movie.title} />
-        <Heading as="h3" className={styles.movieTitle}>
-          {movie.title}
-        </Heading>
-      </li>
-    </Card>
+    <>
+      {showMovieDetails && (
+        <MovieDetailDialog movieId={movie.id} open={showMovieDetails} onCloseClick={onCloseClick} />
+      )}
+      <Card asChild className={styles.movieCard} onClick={onCardClick}>
+        <li>
+          <MoviePoster posterUrl={movie.posterUrl} title={movie.title} />
+          <Heading as="h3" className={styles.movieTitle}>
+            {movie.title}
+          </Heading>
+        </li>
+      </Card>
+    </>
   );
 };

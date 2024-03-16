@@ -1,6 +1,7 @@
 .imageContainer {
   position: relative;
-  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
   height: 150px;
   margin: 0 auto 16px;
   object-fit: contain;
@@ -10,6 +11,7 @@
   font-weight: 400;
   font-size: 20px;
   text-align: center;
+  text-transform: capitalize;
 }
 
 .movieCard {
@@ -20,9 +22,14 @@
   min-width: 200px;
   max-width: 200px;
   padding: 24px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0.1059 0.1137 0.1176 / 5%);
+  }
 }
 
-.posterPlaceholder {
+.posterUnknown {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,5 +38,34 @@
   height: 150px;
   margin: 0 auto 16px;
   background-color: white;
+  opacity: 0.65;
+}
+
+.skeleton {
+  animation: skeleton-loading 500ms linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(355deg 20% 80%);
+  }
+
+  100% {
+    background-color: hsl(355deg 20% 95%);
+  }
+}
+
+.posterSkeleton {
+  min-width: 100px;
+  max-width: 100px;
+  height: 150px;
+  margin: 0 auto 16px;
+  opacity: 0.65;
+}
+
+.titleSkeleton {
+  width: 178px;
+  height: 30px;
+  margin: 0 auto;
   opacity: 0.65;
 }
